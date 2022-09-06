@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class Player_Controller : MonoBehaviour
 {
-    public float speed = 6f;
-    private float gravity = 9.8f;
-    private float verticalSpeed = 0;
-    public CharacterController characterController;
-
-    void Update()
+    private Rigidbody rb;
+    public float jumpH;
+    public float jumpForce;
+    private Vector3 jump;
+    private bool isgrounded;
+    private void Start()
     {
-        Move();
+        jump = new Vector3(0f, jumpH, 0f);
+        rb = GetComponent<Rigidbody>();
+    }
+    private void Update()
+    {
+        if (rb.velocity.y == 0)
+        {
+            if(Input.GetKeyDown(KeyCode.Space) && isgrounded)
+            {
+                rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+                isgrounded = false;
+            }
+        }
+    }
+    private void FixedUpdate()
+    {
+        transform.Rotate(0, Input.GetAxis("Horizontal") * Time.deltaTime * 25.0f, 0);
+        transform.Translate(0, 0, Input.GetAxis("Vertical") * Time.deltaTime * 5.0f);
     }
 
-    private void Move()
+    private void OnCollisionEnter(Collision other)
     {
-        float horizontalMove = Input.GetAxis("Horizontal");
-        float verticalMove = Input.GetAxis("Vertical");
-        Vector3 move = transform.forward * verticalMove + transform.right * horizontalMove;
-        characterController.Move(speed * Time.deltaTime * move);
-        if (characterController.isGrounded) verticalSpeed = 0;
-        else verticalSpeed -= gravity * Time.deltaTime;
-        Vector3 gravityMove = new Vector3(0, verticalSpeed, 0);
+        if (other.gameObject.tag == "floor")
+            isgrounded = true;
     }
 }
