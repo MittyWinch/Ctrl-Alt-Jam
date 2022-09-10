@@ -28,7 +28,7 @@ public class Player_Controller : MonoBehaviour
     private void FixedUpdate()
     {
         transform.Rotate(0, Input.GetAxis("Horizontal") * Time.deltaTime * 25.0f, 0);
-        transform.Translate(0, 0, Input.GetAxis("Vertical") * Time.deltaTime * 5.0f);
+        transform.Translate(0, 0, Input.GetAxis("Vertical") * Time.deltaTime * 4.0f);
     }
 
     private void OnCollisionEnter(Collision other)
