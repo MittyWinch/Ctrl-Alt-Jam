@@ -8,7 +8,6 @@ using TMPro;
 public class MenuController : MonoBehaviour
 {
     public string _Cena;
-    public Animator anim;
     [SerializeField] private TMP_Text volumeTextoValor = null;
     [SerializeField] private Slider volumeSlider = null;
 
@@ -16,7 +15,6 @@ public class MenuController : MonoBehaviour
     public void IniciarJogo()
     {
         SceneManager.LoadScene(_Cena);
-        anim.SetBool("isIniciate", true);
     }
 
     public void AjustarVolume(float volume)
