@@ -21,26 +21,19 @@ public class Player_Controller : MonoBehaviour
     public float airMultiplier;
     bool readyToJump;
     public KeyCode jumpKey = KeyCode.Space;
-       
+    public Transform topDownLookAt;
     public float rotationSpeed;
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         rb.freezeRotation = true;
+
+        readyToJump = true;
     }
 
     public void Update()
     {
-        Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
-        orientation.forward = viewDir.normalized;
-
-        Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
-        if (inputDir != Vector3.zero)
-        {
-            playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
-        }
         InputMovement();
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
